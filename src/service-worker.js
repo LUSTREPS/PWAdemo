@@ -20,6 +20,7 @@ function addData(name, objectStore) {
         })
           .then(() => {
             // success block
+            this.deleteData(word);
           })
           .catch(() => {
             //error block
@@ -27,6 +28,26 @@ function addData(name, objectStore) {
           };
     }
     
+  }
+
+  function deleteData(key) {
+    let db;
+    const request = indexedDB.open('my-db');
+    request.onerror = (event) => {
+      console.log('Failed to open Db');
+    };
+    request.onsuccess = (event) => {
+      db = event.target.result;
+      const transaction = db.transaction('https://api.dictionaryapi.dev/api/v2/entries/en/', 'readwrite');
+      const objectStore = transaction.objectStore('https://api.dictionaryapi.dev/api/v2/entries/en/');
+      const request = objectStore.delete(key);
+      request.onerror = (event) => {
+        console.log('Deleted Error');
+      };
+      request.onsuccess = (event) => {
+        console.log('Deleted successfully');
+      };
+    };
   }
 
   function getDataAndSend() {
