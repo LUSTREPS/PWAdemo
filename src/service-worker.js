@@ -29,29 +29,6 @@ self.addEventListener('sync', (event) => {
     }
     
   }
-  function addData1(name, objectStore) {
-    //indexDb
-    for(let word of name.result) {
-      const data = objectStore.get(word);
-      data.onsuccess = (event) => {
-        fetch(`https://reqres.in/api/posts`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: { title: this.articleName }
-        })
-          .then(() => {
-            // success block
-            //this.deleteData(word);
-          })
-          .catch(() => {
-            //error block
-          });
-          };
-    }
-    
-  }
 
   function deleteData(key) {
     let db;
@@ -95,19 +72,6 @@ self.addEventListener('sync', (event) => {
     };
     request.onsuccess = (event) => {
       addData(request, objectStore);
-      console.log('Name of the user is ' + request.result);
-    };
-  }
-
-  function getData1(db) {
-    const transaction = db.transaction(['https://reqres.in/api/posts']);
-    const objectStore = transaction.objectStore('https://reqres.in/api/posts');
-    const request = objectStore.getAllKeys();
-    request.onerror = (event) => {
-      // Handle errors!
-    };
-    request.onsuccess = (event) => {
-      addData1(request, objectStore);
       console.log('Name of the user is ' + request.result);
     };
   }

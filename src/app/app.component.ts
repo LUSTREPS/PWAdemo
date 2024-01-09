@@ -55,8 +55,7 @@ export class AppComponent {
   }
 
   callPostApi() {
-    const body = { title: this.articleName };
-    this.http.post<Article>('https://reqres.in/api/posts', body).subscribe(data => {
+    this.http.post<Article>('https://reqres.in/api/posts', { title: this.articleName }).subscribe(data => {
         this.bookId = data.id;
     },
     ()=> {
