@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { IndexedDBService } from './services/indexed-db.service';
 import { Router } from '@angular/router';
-import { map } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.sass']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'PWIdemo';
@@ -41,7 +41,7 @@ export class AppComponent {
   } */
 
   callGetApi() {
-    this.http.get<Word[]>(`https://api.dictionaryapi.dev/api/v2/entries/en/${this.word}`).pipe(map(res=>res)).subscribe(data => {
+    this.http.get<Word[]>(`https://api.dictionaryapi.dev/api/v2/entries/en/${this.word}`).subscribe(data => {
         this.meaning = data[0].word;
     },
     ()=> {
@@ -55,7 +55,8 @@ export class AppComponent {
   }
 
   callPostApi() {
-    this.http.post<Article>('https://reqres.in/api/posts', { title: this.articleName }).subscribe(data => {
+    const body = { title: this.articleName };
+    this.http.post<Article>('https://reqres.in/api/posts', body).subscribe(data => {
         this.bookId = data.id;
     },
     ()=> {
