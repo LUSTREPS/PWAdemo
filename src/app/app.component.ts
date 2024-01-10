@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { IndexedDBService } from './services/indexed-db.service';
 import { Router } from '@angular/router';
 import { map } from 'rxjs';
+import { CacheService } from './services/cache.service';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent {
   constructor(
     private readonly http: HttpClient,
     private indexedDBService: IndexedDBService,
+    private cacheService: CacheService,
     private readonly router: Router
   ) { }
 
@@ -34,6 +36,10 @@ export class AppComponent {
 
   navView() {
     this.router.navigate(['view']).catch(() => {});
+  }
+
+  exportCache() {
+    this.cacheService.exportCache();
   }
   /* onSubmit() {
     console.log('Form submitted:', this.userName);
@@ -57,6 +63,7 @@ export class AppComponent {
   callPostApi() {
     this.http.post<Article>('https://reqres.in/api/posts', { title: this.articleName }).subscribe(data => {
         this.bookId = data.id;
+        //this.cacheService.savePostRequest();
     },
     ()=> {
       console.log("Failed response");
