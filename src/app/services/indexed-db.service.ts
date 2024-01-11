@@ -18,40 +18,38 @@ export class IndexedDBService {
       upgrade(db) {
         db.createObjectStore('https://reqres.in/api/posts');
         db.createObjectStore('https://api.dictionaryapi.dev/api/v2/entries/en/');
+        db.createObjectStore('https://api.api-ninjas.com/v1/thesaurus?word=');
       },
     });
   }
 
-  addUser(api: string, name: string) {
-    switch(api) {
-      case API.REQRES:
-        return this.db.add('https://reqres.in/api/posts', name, new Date().toString());
-      case API.DICTIONARY:
-        return this.db.add('https://api.dictionaryapi.dev/api/v2/entries/en/', name, new Date().toString());
-      default:
-        return Promise.reject();
-    }
+  addUser(api: API, payload: any, method: method, options: RequestInit = {}) {
 
-    
-  }
-
-  deleteUser(key:string) {
-
-    return this.db.delete('https://api.dictionaryapi.dev/api/v2/entries/en/', key);
+    return this.db.add(api, JSON.stringify({ payload, method, options }), new Date().toString()).catch(error => {console.log(error)});
   }
 }
 
-enum API {
+export enum method {
+  GET = 'GET',
+  POST = 'POST'
+}
+
+export enum API {
   REQRES = 'https://reqres.in/api/posts',
-  DICTIONARY = 'https://api.dictionaryapi.dev/api/v2/entries/en/'
+  DICTIONARY = 'https://api.dictionaryapi.dev/api/v2/entries/en/',
+  ANTONYM = 'https://api.api-ninjas.com/v1/thesaurus?word='
 }
 
-interface MyDB extends DBSchema {
+export interface MyDB extends DBSchema {
   'https://reqres.in/api/posts': {
     key: string;
     value: string;
   };
   'https://api.dictionaryapi.dev/api/v2/entries/en/': {
+    key: string;
+    value: string;
+  };
+  'https://api.api-ninjas.com/v1/thesaurus?word=': {
     key: string;
     value: string;
   };

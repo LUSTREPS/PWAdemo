@@ -30,7 +30,7 @@
   "dataGroups": [
     {
     "name":"api-fresh",
-    "urls":["https://api.dictionaryapi.dev/api/v2/entries/en/", "https://reqres.in/api/posts"],
+    "urls":["https://api.dictionaryapi.dev/api/v2/entries/en/", "https://api.api-ninjas.com/v1/thesaurus?word="],
     "cacheConfig": {
     "strategy": "freshness",
     "maxSize": 100,

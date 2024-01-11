@@ -365,19 +365,28 @@
     <div style="display: flex;flex-direction: column;">
       <label for="dictionary">Enter the word:</label>
       <input id="dictionary" [(ngModel)]="word" />
-      <span>
+      <b>
         Meaning : {{ meaning }}
-      </span>
+      </b>
     </div>
     <button (click)="callGetApi()" style="height: 20px;">Submit GET API</button>
+
+    <div style="display: flex;flex-direction: column;">
+      <label for="antonym">Enter the word:</label>
+      <input id="antonym" [(ngModel)]="opposit" />
+      <b>
+        Antonym : {{ antonym }}
+      </b>
+    </div>
+    <button (click)="getOppositAPI()" style="height: 20px;">Submit GET API</button>
     
 
     <div style="display: flex;flex-direction: column;">
       <label for="article">Enter Article Name:</label>
       <input id="article" [(ngModel)]="articleName" />
-      <span>
+      <b>
         Book Id : {{ bookId }}
-      </span>
+      </b>
     </div>
     <button (click)="callPostApi()" style="height: 20px;">Submit POST API</button>
   </section>

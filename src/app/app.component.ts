@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { IndexedDBService } from './services/indexed-db.service';
+import { API, IndexedDBService, method } from './services/indexed-db.service';
 import { Router } from '@angular/router';
-import { map } from 'rxjs';
 import { CacheService } from './services/cache.service';
 
 @Component({
@@ -12,8 +11,6 @@ import { CacheService } from './services/cache.service';
 })
 export class AppComponent {
   title = 'PWIdemo';
-  meaning: string = '';
-  bookId?: number;
 
   constructor(
     private readonly http: HttpClient,
@@ -23,7 +20,11 @@ export class AppComponent {
   ) { }
 
   word = '';
+  meaning: string = '';
+  opposit = '';
+  antonym = '';
   articleName = '';
+  bookId?: number;
 
 
   navHome() {
@@ -47,21 +48,41 @@ export class AppComponent {
   } */
 
   callGetApi() {
-    this.http.get<Word[]>(`https://api.dictionaryapi.dev/api/v2/entries/en/${this.word}`).pipe(map(res=>res)).subscribe(data => {
+    this.http.get<any[]>(`https://api.dictionaryapi.dev/api/v2/entries/en/${this.word}`).subscribe(data => {
         this.meaning = data[0].word;
     },
     ()=> {
       this.meaning = '';
       console.log("Failed response");
       this.indexedDBService
-        .addUser(`https://api.dictionaryapi.dev/api/v2/entries/en/`, this.word)
+        .addUser(API.DICTIONARY, this.word, method.GET)
         .then(this.backgroundSync)
         .catch(console.log);
     });
   }
 
+  getOppositAPI() {
+    this.http.get<any>(`https://api.api-ninjas.com/v1/thesaurus?word=${this.opposit}`, {headers: {
+      'X-Api-Key': '/xe0OtQI2auzCbg9YMR6NQ==lH0J1FphYdRrVK7a'
+    }}).subscribe(data => {
+        this.antonym = data.antonyms[0];
+    },
+    ()=> {
+      this.antonym = '';
+      console.log("Failed response");
+      this.indexedDBService
+        .addUser(API.ANTONYM, this.opposit, method.GET, {headers: {
+          'X-Api-Key': '/xe0OtQI2auzCbg9YMR6NQ==lH0J1FphYdRrVK7a'
+        }})
+        .then(this.backgroundSync)
+        .catch(error => {
+          console.log
+        });
+    });
+  }
+
   callPostApi() {
-    this.http.post<Article>('https://reqres.in/api/posts', { title: this.articleName }).subscribe(data => {
+    this.http.post<any>('https://reqres.in/api/posts', { title: this.articleName }).subscribe(data => {
         this.bookId = data.id;
         //this.cacheService.savePostRequest();
     },
@@ -69,7 +90,7 @@ export class AppComponent {
       console.log("Failed response");
       this.bookId = undefined;
       this.indexedDBService
-        .addUser('https://reqres.in/api/posts', this.articleName)
+        .addUser(API.REQRES, { title: this.articleName }, method.POST)
         .then(this.backgroundSync)
         .catch(console.log);
     });
@@ -105,15 +126,4 @@ export class AppComponent {
     }
 
   }
-}
-
-interface Word {
-  word: string,
-  phonetic: string,
-  phonetics: Object[]
-}
-
-interface Article {
-  id:number;
-  title: string;
 }
