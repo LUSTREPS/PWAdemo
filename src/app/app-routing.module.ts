@@ -1,12 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home/home.component';
-import { AboutComponent } from './about/about/about.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'about', component: AboutComponent },
-  { path: 'view', loadChildren: () => import('./view/view.module').then(m => m.ViewModule) }
+  { path: '', component: DashboardComponent },
+  { path: 'offline', loadChildren: () => import('./offline-cacheing/offline-cacheing.module').then(m => m.OfflineCacheingModule) }
 ];
 
 @NgModule({
