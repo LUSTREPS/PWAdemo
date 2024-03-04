@@ -1,39 +1,46 @@
 <section style="display: flex;flex-direction: row;gap: 16px;align-items: center;">
     <div style="display: flex;flex-direction: column;">
-      <label for="dictionary">Enter the word:</label>
-      <input id="dictionary" [(ngModel)]="word" />
+      <mat-form-field appearance="outline">
+        <mat-label>Enter the word</mat-label>
+        <input matInput [(ngModel)]="word">
+      </mat-form-field>
       <b>
         Meaning : {{ meaning }}
       </b>
     </div>
-    <button (click)="callGetApi()" style="height: 20px;">Submit GET API</button>
+      <button mat-raised-button color="primary" (click)="callGetApi()" style="margin-bottom: 20px;">Submit GET API</button>
 
     <div style="display: flex;flex-direction: column;">
-      <label for="antonym">Enter the word:</label>
-      <input id="antonym" [(ngModel)]="opposit" />
+      <mat-form-field appearance="outline">
+        <mat-label>Enter the word</mat-label>
+        <input matInput [(ngModel)]="opposit">
+      </mat-form-field>
       <b>
         Antonym : {{ antonym }}
       </b>
     </div>
-    <button (click)="getOppositAPI()" style="height: 20px;">Submit GET API</button>
+      <button mat-raised-button color="primary" (click)="getOppositAPI()" style="margin-bottom: 20px;">Submit GET API</button>
     
 
     <div style="display: flex;flex-direction: column;">
-      <label for="article">Enter Article Name:</label>
-      <input id="article" [(ngModel)]="articleName" />
+      <mat-form-field appearance="outline">
+        <mat-label>Enter Article Name</mat-label>
+        <input matInput [(ngModel)]="articleName">
+      </mat-form-field>
       <b>
         Book Id : {{ bookId }}
       </b>
     </div>
-    <button (click)="callPostApi()" style="height: 20px;">Submit POST API</button>
+    <button mat-raised-button color="primary" (click)="callPostApi()" style="margin-bottom: 20px;">Submit POST API</button>
   </section>
 
   <div style="display: flex;flex-direction: row;gap: 16px;margin-top: 20px;">
-    <button (click)="exportCache()">Export cache</button>
+    <button mat-raised-button color="primary" (click)="exportCache()">Export cache</button>
   </div>
 
   <div style="display: flex;flex-direction: row;gap: 16px;margin-top: 20px;">
-    <button (click)="navHome()">Home</button>
-    <button (click)="navAbout()">About</button>
-    <button (click)="navView()">View</button>
+    <button mat-raised-button color="primary" (click)="navHome()">Home</button>
+    <button mat-raised-button color="primary" (click)="navAbout()">About</button>
+    <button mat-raised-button color="primary" (click)="navView()">View</button>
   </div>
+  <router-outlet></router-outlet>

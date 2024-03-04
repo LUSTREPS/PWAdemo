@@ -26,19 +26,19 @@ export class OfflineCacheingComponent {
   ) {}
 
   navHome() {
-    this.router.navigate(['home']).catch(() => {});
+    this.router.navigate(['/offline/home']).catch(() => {});
   }
 
   navAbout() {
-    this.router.navigate(['about']).catch(() => {});
+    this.router.navigate(['/offline/about']).catch(() => {});
   }
 
   navView() {
-    this.router.navigate(['view']).catch(() => {});
+    this.router.navigate(['/offline/view']).catch(() => {});
   }
 
   exportCache() {
-    //this.cacheService.exportCache();
+    this.cacheService.exportCache();
   }
   /* onSubmit() {
     console.log('Form submitted:', this.userName);
